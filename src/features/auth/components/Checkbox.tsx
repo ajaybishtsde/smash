@@ -15,11 +15,11 @@ const Checkbox = ({ handleChecked, checked }: Props) => {
     Linking.openURL("https://linkedin.com/in/ajaybishtsde");
 
   return (
-    <Pressable onPress={handleChecked} className="flex-row ">
+    <Pressable onPress={handleChecked} className="flex-row gap-2">
       {!checked ? (
-        <View className="h-4 w-4 bg-slate-400 rounded-lg me-2"></View>
+        <View className="h-6 w-6 bg-slate-400 rounded-lg "></View>
       ) : (
-        <Image source={images.checkedBox} className="me-2 h-4 w-4" />
+        <Image source={images.checkedBox} className=" h-6 w-6" />
       )}
       <Text muted>
         I am 18+ agree to the 4RL{" "}

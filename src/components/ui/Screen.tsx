@@ -26,6 +26,8 @@ export function Screen({
       <SafeAreaView className={cn("flex-1 bg-background", className)}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
+          automaticallyAdjustKeyboardInsets
           contentContainerClassName={cn(
             "flex-grow px-5 py-6",
             contentClassName,

@@ -1,34 +1,37 @@
-import { Link } from "expo-router";
-import { useState } from "react";
-import { Image, View } from "react-native";
-
+import { LoginFormData, loginSchema } from "@/components/schemas/loginSchema";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { Screen } from "@/components/ui/Screen";
 import { Text } from "@/components/ui/Text";
 import { images } from "@/constants/images";
 import { useAppDispatch } from "@/hooks/useAppDispatch";
-import { mockSignIn } from "@/lib/auth/mockAuth";
+import { signIn as signInApi } from "@/lib/auth/mockAuth";
 import { signIn } from "@/store/authSlice";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Link } from "expo-router";
+import { Controller, useForm } from "react-hook-form";
+import { Image, View } from "react-native";
 
 export default function LoginScreen() {
   const dispatch = useAppDispatch();
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  async function handleLogin() {
-    if (!email.trim()) {
-      return;
-    }
+  const {
+    control,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      phoneNumber: "",
+    },
+  });
 
-    setLoading(true);
+  async function handleLogin(data: LoginFormData) {
+    const user = await signInApi({
+      phoneNumber: data.phoneNumber,
+    });
 
-    try {
-      const user = await mockSignIn({ email: email.trim() });
-      dispatch(signIn(user));
-    } finally {
-      setLoading(false);
-    }
+    dispatch(signIn(user));
   }
 
   return (
@@ -48,17 +51,28 @@ export default function LoginScreen() {
           <Text variant="title">Welcome to Smash</Text>
         </View>
 
-        <Input
-          label="Email"
-          autoCapitalize="none"
-          autoComplete="email"
-          keyboardType="email-address"
-          placeholder="you@example.com"
-          value={email}
-          onChangeText={setEmail}
+        <Controller
+          control={control}
+          name="phoneNumber"
+          render={({ field: { onChange, value } }) => (
+            <Input
+              label="Phone number"
+              placeholder="Enter your phone number"
+              value={value}
+              onChangeText={onChange}
+              keyboardType="phone-pad"
+              autoComplete="tel"
+              maxLength={10}
+              error={errors.phoneNumber?.message}
+            />
+          )}
         />
 
-        <Button title="Sign in" loading={loading} onPress={handleLogin} />
+        <Button
+          title="Sign in"
+          loading={isSubmitting}
+          onPress={handleSubmit(handleLogin)}
+        />
 
         <Text className="text-center">
           No account?{" "}
