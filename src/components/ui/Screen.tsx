@@ -1,14 +1,17 @@
-import { type PropsWithChildren } from 'react';
-import { ScrollView, View, type ScrollViewProps } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { type PropsWithChildren } from "react";
+import { ScrollView, View, type ScrollViewProps } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-import { cn } from '@/lib/cn';
+import { cn } from "@/lib/cn";
 
 type ScreenProps = PropsWithChildren<{
   scrollable?: boolean;
   className?: string;
   contentClassName?: string;
-  scrollViewProps?: Omit<ScrollViewProps, 'children' | 'className' | 'contentContainerClassName'>;
+  scrollViewProps?: Omit<
+    ScrollViewProps,
+    "children" | "className" | "contentContainerClassName"
+  >;
 }>;
 
 export function Screen({
@@ -20,10 +23,13 @@ export function Screen({
 }: ScreenProps) {
   if (scrollable) {
     return (
-      <SafeAreaView className={cn('flex-1 bg-background', className)}>
+      <SafeAreaView className={cn("flex-1 bg-background", className)}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
-          contentContainerClassName={cn('flex-grow px-5 py-6', contentClassName)}
+          contentContainerClassName={cn(
+            "flex-grow px-5 py-6",
+            contentClassName,
+          )}
           {...scrollViewProps}
         >
           {children}
@@ -33,8 +39,10 @@ export function Screen({
   }
 
   return (
-    <SafeAreaView className={cn('flex-1 bg-background', className)}>
-      <View className={cn('flex-1 px-5 py-6', contentClassName)}>{children}</View>
+    <SafeAreaView className={cn("flex-1 bg-background", className)}>
+      <View className={cn("flex-1 px-5 py-6", contentClassName)}>
+        {children}
+      </View>
     </SafeAreaView>
   );
 }

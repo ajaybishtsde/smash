@@ -1,15 +1,16 @@
-import { router } from 'expo-router';
-import { Pressable, View } from 'react-native';
+import { router } from "expo-router";
+import { Pressable, View } from "react-native";
 
-import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
-import { Screen } from '@/components/ui/Screen';
-import { Text } from '@/components/ui/Text';
-import { themeModes, type ThemeMode } from '@/constants/theme';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { useAppSelector } from '@/hooks/useAppSelector';
-import { signOut } from '@/store/authSlice';
-import { setThemeMode } from '@/store/themeSlice';
+import { Button } from "@/components/ui/Button";
+import { Card } from "@/components/ui/Card";
+import { Header } from "@/components/ui/Header";
+import { Screen } from "@/components/ui/Screen";
+import { Text } from "@/components/ui/Text";
+import { themeModes, type ThemeMode } from "@/constants/theme";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { signOut } from "@/store/authSlice";
+import { setThemeMode } from "@/store/themeSlice";
 
 export default function SettingsScreen() {
   const dispatch = useAppDispatch();
@@ -24,7 +25,8 @@ export default function SettingsScreen() {
     <Screen scrollable>
       <View className="gap-6">
         <View className="gap-2">
-          <Text variant="title">Settings</Text>
+          <Header title="Settings" />
+
           {user ? <Text muted>Signed in as {user.email}</Text> : null}
         </View>
 
@@ -60,9 +62,11 @@ function ThemeModeButton({ mode, selected, onPress }: ThemeModeButtonProps) {
   return (
     <Pressable
       onPress={onPress}
-      className={`rounded-lg border px-3 py-2 ${selected ? 'border-primary bg-primary/10' : 'border-border'}`}
+      className={`rounded-lg border px-3 py-2 ${selected ? "border-primary bg-primary/10" : "border-border"}`}
     >
-      <Text className={selected ? 'text-primary' : undefined}>{capitalize(mode)}</Text>
+      <Text className={selected ? "text-primary" : undefined}>
+        {capitalize(mode)}
+      </Text>
     </Pressable>
   );
 }
