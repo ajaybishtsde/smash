@@ -1,18 +1,19 @@
-import { Link } from 'expo-router';
-import { useState } from 'react';
-import { View } from 'react-native';
+import { Link } from "expo-router";
+import { useState } from "react";
+import { Image, View } from "react-native";
 
-import { Button } from '@/components/ui/Button';
-import { Input } from '@/components/ui/Input';
-import { Screen } from '@/components/ui/Screen';
-import { Text } from '@/components/ui/Text';
-import { useAppDispatch } from '@/hooks/useAppDispatch';
-import { mockSignIn } from '@/lib/auth/mockAuth';
-import { signIn } from '@/store/authSlice';
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/Input";
+import { Screen } from "@/components/ui/Screen";
+import { Text } from "@/components/ui/Text";
+import { images } from "@/constants/images";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { mockSignIn } from "@/lib/auth/mockAuth";
+import { signIn } from "@/store/authSlice";
 
 export default function LoginScreen() {
   const dispatch = useAppDispatch();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
   async function handleLogin() {
@@ -31,30 +32,41 @@ export default function LoginScreen() {
   }
 
   return (
-    <Screen scrollable contentClassName="justify-center gap-6">
-      <View className="gap-2">
-        <Text variant="title">Welcome to Smash</Text>
-        <Text muted>Sign in to continue. This uses mock auth for now.</Text>
+    <Screen scrollable contentClassName="gap-8">
+      {/* Logo */}
+      <View className="items-center pt-12">
+        <Image
+          source={images.logo}
+          className="h-40 w-56"
+          resizeMode="contain"
+        />
       </View>
 
-      <Input
-        label="Email"
-        autoCapitalize="none"
-        autoComplete="email"
-        keyboardType="email-address"
-        placeholder="you@example.com"
-        value={email}
-        onChangeText={setEmail}
-      />
+      {/* Login content */}
+      <View className="gap-6">
+        <View className="gap-2">
+          <Text variant="title">Welcome to Smash</Text>
+        </View>
 
-      <Button title="Sign in" loading={loading} onPress={handleLogin} />
+        <Input
+          label="Email"
+          autoCapitalize="none"
+          autoComplete="email"
+          keyboardType="email-address"
+          placeholder="you@example.com"
+          value={email}
+          onChangeText={setEmail}
+        />
 
-      <Text className="text-center">
-        No account?{' '}
-        <Link href="/signup">
-          <Text className="text-primary">Sign up</Text>
-        </Link>
-      </Text>
+        <Button title="Sign in" loading={loading} onPress={handleLogin} />
+
+        <Text className="text-center">
+          No account?{" "}
+          <Link href="/signup">
+            <Text className="text-primary">Sign up</Text>
+          </Link>
+        </Text>
+      </View>
     </Screen>
   );
 }
